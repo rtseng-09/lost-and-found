@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-only-change-me")
-DB_PATH = os.environ.get("DB_PATH", "lostfound.db")
+DB_PATH = os.environ.get("DB_PATH") or ("/tmp/lostfound.db" if os.environ.get("K_SERVICE") else "lostfound.db")
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS users(
