@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Campus Lost &amp; Found{% endblock %}</title>
+<style>
+body{font-family:Georgia,serif;max-width:820px;margin:0 auto;padding:1rem;color:#1d2b2a;background:#fbfaf7;line-height:1.5}
+a{color:#0b5d57}
+nav{display:flex;gap:1rem;align-items:baseline;border-bottom:2px solid #0b5d57;padding-bottom:.5rem;margin-bottom:1rem;flex-wrap:wrap}
+nav .brand{font-size:1.3rem;font-weight:bold;text-decoration:none}nav .sp{flex:1}
+.flash{padding:.6rem .8rem;border-left:4px solid;margin:.6rem 0}
+.error{background:#fdecea;border-color:#b3261e}.ok{background:#e7f3ee;border-color:#0b5d57}
+.item{display:flex;gap:1rem;padding:.8rem 0;border-bottom:1px solid #d9d6cc}
+.item img{width:120px;height:90px;object-fit:cover}
+.tag{font:.8rem system-ui,sans-serif;padding:.1rem .5rem;background:#f6e3a8;margin-left:.4rem}.tag.ret{background:#cfe8dc}
+input,button{font:inherit;padding:.45rem .6rem;border:1px solid #8a8a80;background:#fff}
+button{background:#0b5d57;color:#fff;border-color:#0b5d57;cursor:pointer}
+label{display:block;margin:.8rem 0 .2rem}form.inline{display:inline}
+:focus-visible{outline:3px solid #e0a100;outline-offset:2px}
+</style></head><body>
+<nav><a class="brand" href="{{ url_for('index') }}">Campus Lost &amp; Found</a>
+<a href="{{ url_for('new_item') }}">Post a found item</a><span class="sp"></span>
+{% if session.user_id %}<a href="{{ url_for('user_page', username=session.username) }}">My posts ({{ session.username }})</a>
+<a href="{{ url_for('logout') }}">Log out</a>
+{% else %}<a href="{{ url_for('login') }}">Log in</a><a href="{{ url_for('register') }}">Register</a>{% endif %}</nav>
+{% for cat, msg in get_flashed_messages(with_categories=true) %}<div class="flash {{ cat }}" role="status">{{ msg }}</div>{% endfor %}
+{% block body %}{% endblock %}
+</body></html>

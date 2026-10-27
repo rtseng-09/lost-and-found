@@ -1,0 +1,13 @@
+{% for it in items %}
+<div class="item">
+  {% if it.photo_url %}<img src="{{ it.photo_url }}" alt="Photo of {{ it.what }}">{% endif %}
+  <div><strong>{{ it.what }}</strong>
+    <span class="tag {{ 'ret' if it.returned }}">{{ 'Returned' if it.returned else 'Unclaimed' }}</span><br>
+    Found at {{ it.place }} on {{ it.found_on }}<br>
+    <small>Posted by <a href="{{ url_for('user_page', username=it.username) }}">{{ it.username }}</a></small>
+    {% if session.user_id == it.user_id and not it.returned %}
+    <form class="inline" method="post" action="{{ url_for('mark_returned', item_id=it.id) }}"><button>Mark as returned</button></form>
+    {% endif %}
+  </div>
+</div>
+{% else %}<p>No items match. Try a different search or <a href="{{ url_for('new_item') }}">post what you found</a>.</p>{% endfor %}
