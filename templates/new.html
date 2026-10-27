@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Post a found item</h1>
+<form method="post">
+  <label for="w">What did you find?</label><input id="w" name="what" value="{{ f.what }}" required>
+  <label for="pl">Where?</label><input id="pl" name="place" value="{{ f.place }}" required>
+  <label for="d">Date found</label><input id="d" name="found_on" type="date" value="{{ f.found_on }}" required>
+  <label for="ph">Photo URL (optional)</label><input id="ph" name="photo_url" value="{{ f.photo_url }}" style="width:100%">
+  <p><button>Post item</button></p>
+</form>
+{% endblock %}
