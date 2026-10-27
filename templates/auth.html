@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>{{ title }}</h1>
+<form method="post">
+  <label for="u">Username</label><input id="u" name="username" required autocomplete="username">
+  <label for="p">Password</label><input id="p" name="password" type="password" required autocomplete="current-password">
+  <p><button>{{ button }}</button></p>
+</form>
+{% endblock %}
