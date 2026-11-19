@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
 <h1>Found something? Lost something?</h1>
+<p class="flash ok">New: this site is now automatically tested and deployed with GitHub Actions.</p>
 <form method="get">
   <input name="q" value="{{ q }}" placeholder="Search by item or place" aria-label="Search">
   <label style="display:inline"><input type="checkbox" name="unclaimed" value="1" {{ 'checked' if unclaimed }}> Only unclaimed</label>
