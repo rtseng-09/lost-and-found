@@ -1,0 +1,40 @@
+name: CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+env:
+  PROJECT_ID: omis107-hw5-richard-tseng
+  REGION: us-west1
+  SERVICE: lost-and-found
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.txt
+      - run: pytest -v
+
+  deploy:
+    # Only on merges/pushes to main, and only after the test job succeeds.
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy "$SERVICE" --source . --project "$PROJECT_ID" --region "$REGION" \
+            --allow-unauthenticated --quiet \
+            --set-env-vars "SECRET_KEY=${{ secrets.FLASK_SECRET_KEY }},DB_PATH=/tmp/lostfound.db"

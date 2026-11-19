@@ -19,3 +19,16 @@ data on first run (demo logins: `maya`, `jordan`, `sam`, password `password123`)
 
 Note: Cloud Run's disk is ephemeral, so SQLite data resets when the instance restarts
 (the seed data reappears). Locally the data persists in `lostfound.db`.
+
+## Tests
+    pip install -r requirements-dev.txt
+    pytest
+
+## CI/CD (GitHub Actions)
+`.github/workflows/ci-cd.yml` runs the test suite on every pull request to `main`.
+On every push/merge to `main` it runs the tests again and, only if they pass,
+deploys to Cloud Run (`lost-and-found`, region `us-west1`).
+
+Required repository secrets (Settings → Secrets and variables → Actions):
+- `GCP_SA_KEY` – JSON key of the `github-deployer` service account
+- `FLASK_SECRET_KEY` – random string used as Flask's `SECRET_KEY`
